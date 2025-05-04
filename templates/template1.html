@@ -165,7 +165,17 @@
         </div>
     </div>
 
+    <!-- Include Footer -->
+    <div id="footer-container"></div>
+
     <script>
+        // Load footer
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+
         // Function to get URL parameters
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
@@ -216,12 +226,12 @@
                 '<p class="text-gray-700 text-xs">Your certifications go here...</p>';
             
             document.getElementById('resume-languages').innerHTML = params.languages ? 
-                `<div class="bg-gray-50 p-2 rounded text-xs">${params.languages.replace(/\n/g, '<br>')}</div>` : 
-                '<p class="text-gray-700 text-xs">Your languages go here...</p>';
+                `<div class="bg-gray-50 p-2 text-black rounded text-xs">${params.languages.replace(/\n/g, '<br>')}</div>` : 
+                '<p class="text-gray-700 text-black text-xs">Your languages go here...</p>';
             
             document.getElementById('resume-hobbies').innerHTML = params.hobbies ? 
-                `<div class="bg-gray-50 p-2 rounded text-xs">${params.hobbies.replace(/\n/g, '<br>')}</div>` : 
-                '<p class="text-gray-700 text-xs">Your hobbies go here...</p>';
+                `<div class="bg-gray-50 p-2 rounded text-black text-xs">${params.hobbies.replace(/\n/g, '<br>')}</div>` : 
+                '<p class="text-gray-700 text-black text-xs">Your hobbies go here...</p>';
             
             document.getElementById('resume-references').innerHTML = params.references ? 
                 `<div class="bg-gray-50 p-2 rounded text-xs">${params.references.replace(/\n/g, '<br>')}</div>` : 

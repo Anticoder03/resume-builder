@@ -174,7 +174,17 @@
         </div>
     </div>
 
+    <!-- Include Footer -->
+    <div id="footer-container"></div>
+
     <script>
+        // Load footer
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+
         // Function to get URL parameters
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);

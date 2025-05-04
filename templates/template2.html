@@ -56,7 +56,7 @@
             <!-- Header -->
             <div class="header text-white p-8">
                 <h1 id="resume-name" class="text-3xl font-bold mb-2">Full Name</h1>
-                <h2 id="resume-title" class="text-xl text-blue-600 mb-3">Professional Title</h2>
+                <h2 id="resume-title" class="text-xl text-white mb-3">Professional Title</h2>
                 <div class="mt-4 flex flex-wrap gap-4 text-sm">
                     <p id="resume-email" class="flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,7 +154,17 @@
         </div>
     </div>
 
+    <!-- Include Footer -->
+    <div id="footer-container"></div>
+
     <script>
+        // Load footer
+        fetch('../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+
         // Function to get URL parameters
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
