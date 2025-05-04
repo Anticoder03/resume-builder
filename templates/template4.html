@@ -72,7 +72,7 @@
             <!-- Header -->
             <div class="card p-8 mb-6">
                 <h1 id="resume-name" class="text-3xl font-bold text-green-900 mb-2">Full Name</h1>
-                <p id="resume-title" class="text-lg text-green-700">Professional Title</p>
+                <h2 id="resume-title" class="text-xl text-blue-600 mb-3">Professional Title</h2>
                 <div class="mt-4 flex flex-wrap gap-4">
                     <p id="resume-email" class="flex items-center text-green-800">
                         <span class="contact-icon p-2 rounded-full mr-2">
@@ -187,6 +187,7 @@
             
             // Basic Information
             document.getElementById('resume-name').textContent = params.name || 'Full Name';
+            document.getElementById('resume-title').textContent = params.title || 'Professional Title';
             document.getElementById('resume-email').querySelector('span:last-child').textContent = params.email || 'email@example.com';
             document.getElementById('resume-phone').querySelector('span:last-child').textContent = params.phone || '+1234567890';
             document.getElementById('resume-address').querySelector('span:last-child').textContent = params.address || 'Your Address';

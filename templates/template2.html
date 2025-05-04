@@ -56,7 +56,7 @@
             <!-- Header -->
             <div class="header text-white p-8">
                 <h1 id="resume-name" class="text-3xl font-bold mb-2">Full Name</h1>
-                <p id="resume-title" class="text-lg opacity-90">Professional Title</p>
+                <h2 id="resume-title" class="text-xl text-blue-600 mb-3">Professional Title</h2>
                 <div class="mt-4 flex flex-wrap gap-4 text-sm">
                     <p id="resume-email" class="flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,6 +167,7 @@
             
             // Basic Information
             document.getElementById('resume-name').textContent = params.name || 'Full Name';
+            document.getElementById('resume-title').textContent = params.title || 'Professional Title';
             document.getElementById('resume-email').querySelector('span').textContent = params.email || 'email@example.com';
             document.getElementById('resume-phone').querySelector('span').textContent = params.phone || '+1234567890';
             document.getElementById('resume-address').querySelector('span').textContent = params.address || 'Your Address';

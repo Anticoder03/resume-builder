@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS-Friendly Resume</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .resume-section {
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .bullet-point {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+        .bullet-point::before {
+            content: "•";
+            position: absolute;
+            left: -1rem;
+        }
+        @media print {
+            .print-button {
+                display: none;
+            }
+            body {
+                padding: 0;
+            }
+            .resume-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white p-8 max-w-4xl mx-auto">
+    <!-- Print Button -->
+    <div class="print-button fixed top-4 right-4 z-50">
+        <button onclick="printResume()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
+            </svg>
+            Print Resume
+        </button>
+    </div>
+
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <h1 id="name" class="text-3xl font-bold text-gray-900 mb-2"></h1>
+            <h2 id="title" class="text-xl text-blue-600 mb-3"></h2>
+            <div class="text-gray-600 space-x-4">
+                <span id="email"></span>
+                <span>•</span>
+                <span id="phone"></span>
+                <span>•</span>
+                <span id="address"></span>
+            </div>
+        </div>
+
+        <!-- Career Objective -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">Career Objective</h2>
+            <p id="objective" class="text-gray-700"></p>
+        </div>
+
+        <!-- Skills -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">Skills</h2>
+            <div id="skills" class="text-gray-700"></div>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">Work Experience</h2>
+            <div id="experience" class="text-gray-700"></div>
+        </div>
+
+        <!-- Education -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">Education</h2>
+            <div id="education" class="text-gray-700"></div>
+        </div>
+
+        <!-- Projects -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">Projects</h2>
+            <div id="projects" class="text-gray-700"></div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="grid grid-cols-2 gap-8">
+            <!-- Certifications -->
+            <div class="resume-section">
+                <h2 class="section-title text-xl font-semibold text-gray-900">Certifications</h2>
+                <div id="certifications" class="text-gray-700"></div>
+            </div>
+
+            <!-- Languages -->
+            <div class="resume-section">
+                <h2 class="section-title text-xl font-semibold text-gray-900">Languages</h2>
+                <div id="languages" class="text-gray-700"></div>
+            </div>
+
+            <!-- Hobbies -->
+            <div class="resume-section">
+                <h2 class="section-title text-xl font-semibold text-gray-900">Hobbies</h2>
+                <div id="hobbies" class="text-gray-700"></div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="resume-section">
+                <h2 class="section-title text-xl font-semibold text-gray-900">Social Media</h2>
+                <div id="social" class="text-gray-700"></div>
+            </div>
+        </div>
+
+        <!-- References -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">References</h2>
+            <div id="references" class="text-gray-700"></div>
+        </div>
+
+        <!-- Portfolio -->
+        <div class="resume-section">
+            <h2 class="section-title text-xl font-semibold text-gray-900">Portfolio</h2>
+            <div id="portfolio" class="text-gray-700"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Function to format text with bullet points
+        function formatWithBullets(text) {
+            if (!text) return '';
+            return text.split('\n').map(line => 
+                `<div class="bullet-point">${line.trim()}</div>`
+            ).join('');
+        }
+
+        // Function to format comma-separated text
+        function formatCommaSeparated(text) {
+            if (!text) return '';
+            return text.split(',').map(item => 
+                `<div class="bullet-point">${item.trim()}</div>`
+            ).join('');
+        }
+
+        // Function to print the resume
+        function printResume() {
+            window.print();
+        }
+
+        // Populate the resume with data
+        document.getElementById('name').textContent = urlParams.get('name') || '';
+        document.getElementById('title').textContent = urlParams.get('title') || '';
+        document.getElementById('email').textContent = urlParams.get('email') || '';
+        document.getElementById('phone').textContent = urlParams.get('phone') || '';
+        document.getElementById('address').textContent = urlParams.get('address') || '';
+        document.getElementById('objective').textContent = urlParams.get('objective') || '';
+        document.getElementById('skills').innerHTML = formatCommaSeparated(urlParams.get('skills'));
+        document.getElementById('experience').innerHTML = formatWithBullets(urlParams.get('experience'));
+        document.getElementById('education').innerHTML = formatWithBullets(urlParams.get('education'));
+        document.getElementById('projects').innerHTML = formatWithBullets(urlParams.get('projects'));
+        document.getElementById('certifications').innerHTML = formatCommaSeparated(urlParams.get('certifications'));
+        document.getElementById('languages').innerHTML = formatCommaSeparated(urlParams.get('languages'));
+        document.getElementById('hobbies').innerHTML = formatCommaSeparated(urlParams.get('hobbies'));
+        document.getElementById('social').innerHTML = formatCommaSeparated(urlParams.get('social'));
+        document.getElementById('references').innerHTML = formatWithBullets(urlParams.get('references'));
+        
+        const portfolio = urlParams.get('portfolio');
+        if (portfolio) {
+            document.getElementById('portfolio').innerHTML = `<a href="${portfolio}" class="text-blue-600 hover:underline">${portfolio}</a>`;
+        }
+
+        // Function to download resume as PDF
+        function downloadResume() {
+            const element = document.getElementById('resume-content');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Show loading state
+            downloadBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Generating PDF...
+            `;
+            downloadBtn.disabled = true;
+
+            // PDF options
+            const opt = {
+                margin: 0.2,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: true,
+                    letterRendering: true,
+                    width: 850,
+                    height: 1100
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'letter', 
+                    orientation: 'portrait',
+                    compress: true
+                }
+            };
+
+            // Generate PDF
+            html2pdf()
+                .set(opt)
+                .from(element)
+                .save()
+                .then(() => {
+                    // Reset button state
+                    downloadBtn.innerHTML = `
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Download Resume
+                    `;
+                    downloadBtn.disabled = false;
+                })
+                .catch((error) => {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                    // Reset button state
+                    downloadBtn.innerHTML = `
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Download Resume
+                    `;
+                    downloadBtn.disabled = false;
+                });
+        }
+
+        // Add event listener for download button
+        document.getElementById('downloadBtn').addEventListener('click', downloadResume);
+    </script>
+</body>
+</html> 

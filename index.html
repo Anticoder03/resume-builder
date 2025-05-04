@@ -25,31 +25,47 @@
                     <option value="template2">Template 2 - Header Design</option>
                     <option value="template3">Template 3 - Timeline Design</option>
                     <option value="template4">Template 4 - Card Design</option>
+                    <option value="template5">Template 5 - ATS-Friendly Design</option>
                 </select>
             </div>
 
             <form action="" id="form" class="space-y-6">
+                <!-- Professional Title Section -->
+                <div class="form-control">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Professional Title</label>
+                    <input type="text" id="title" name="title" placeholder="e.g. Software Engineer, Project Manager" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        required>
+                    <span class="error-message text-red-500 text-sm hidden"></span>
+                </div>
+
                 <!-- Personal Information Section -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="form-control">
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                        <input type="text" id="name" placeholder="Enter your name" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" id="name" name="name" placeholder="Enter your name" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required>
+                        <span class="error-message text-red-500 text-sm hidden"></span>
                     </div>
                     <div class="form-control">
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="email" placeholder="Enter your email" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="email" id="email" name="email" placeholder="Enter your email" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required>
+                        <span class="error-message text-red-500 text-sm hidden"></span>
                     </div>
                     <div class="form-control">
                         <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                        <input type="text" id="phone" placeholder="Enter your phone" 
+                        <input type="text" id="phone" name="phone" placeholder="Enter your phone" 
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span class="error-message text-red-500 text-sm hidden"></span>
                     </div>
                     <div class="form-control">
                         <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                        <input type="text" id="address" placeholder="Enter your address" 
+                        <input type="text" id="address" name="address" placeholder="Enter your address" 
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <span class="error-message text-red-500 text-sm hidden"></span>
                     </div>
                 </div>
 
@@ -141,12 +157,65 @@
         document.getElementById('form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Reset previous error messages
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.add('hidden');
+                el.textContent = '';
+            });
+
+            // Validation rules
+            const validations = {
+                name: {
+                    required: true,
+                    minLength: 2,
+                    message: 'Name must be at least 2 characters long'
+                },
+                title: {
+                    required: true,
+                    minLength: 2,
+                    message: 'Professional title must be at least 2 characters long'
+                },
+                email: {
+                    required: true,
+                    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: 'Please enter a valid email address'
+                },
+                phone: {
+                    pattern: /^[\d\s\-\+\(\)]{10,}$/,
+                    message: 'Please enter a valid phone number'
+                }
+            };
+
+            let isValid = true;
+
+            // Validate each field
+            for (const [fieldId, rules] of Object.entries(validations)) {
+                const field = document.getElementById(fieldId);
+                const errorElement = field.nextElementSibling;
+                
+                if (rules.required && !field.value.trim()) {
+                    showError(field, errorElement, 'This field is required');
+                    isValid = false;
+                } else if (field.value.trim() && rules.minLength && field.value.trim().length < rules.minLength) {
+                    showError(field, errorElement, rules.message);
+                    isValid = false;
+                } else if (field.value.trim() && rules.pattern && !rules.pattern.test(field.value.trim())) {
+                    showError(field, errorElement, rules.message);
+                    isValid = false;
+                }
+            }
+
+            if (!isValid) {
+                return;
+            }
+            
             // Get selected template
             const selectedTemplate = document.getElementById('template').value;
             
             // Get all form values
             const formData = {
                 name: document.getElementById('name').value,
+                title: document.getElementById('title').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value,
@@ -173,6 +242,24 @@
 
             // Redirect to selected template page with form data
             window.location.href = `templates/${selectedTemplate}.html?${params.toString()}`;
+        });
+
+        function showError(field, errorElement, message) {
+            field.classList.add('border-red-500');
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+
+        // Add input event listeners to clear errors on typing
+        document.querySelectorAll('input, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                this.classList.remove('border-red-500');
+                const errorElement = this.nextElementSibling;
+                if (errorElement && errorElement.classList.contains('error-message')) {
+                    errorElement.classList.add('hidden');
+                    errorElement.textContent = '';
+                }
+            });
         });
     </script>
 </body>

@@ -108,6 +108,19 @@
 
                 <!-- Main Content -->
                 <div class="w-2/3 bg-white p-6">
+                    <!-- Header Section -->
+                    <div class="text-center mb-8">
+                        <h1 id="name" class="text-3xl font-bold text-gray-900 mb-2"></h1>
+                        <h2 id="title" class="text-xl text-blue-600 mb-3"></h2>
+                        <div class="text-gray-600 space-x-4">
+                            <span id="email"></span>
+                            <span>•</span>
+                            <span id="phone"></span>
+                            <span>•</span>
+                            <span id="address"></span>
+                        </div>
+                    </div>
+
                     <div class="mb-6">
                         <h2 class="section-title text-lg font-bold mb-2">Career Objective</h2>
                         <p id="resume-objective" class="text-gray-700 text-sm">Your career objective goes here...</p>
@@ -165,6 +178,7 @@
             
             // Basic Information
             document.getElementById('resume-name').textContent = params.name || 'Full Name';
+            document.getElementById('resume-title').textContent = params.title || 'Professional Title';
             document.getElementById('resume-email').querySelector('span').textContent = params.email || 'email@example.com';
             document.getElementById('resume-phone').querySelector('span').textContent = params.phone || '+1234567890';
             document.getElementById('resume-address').querySelector('span').textContent = params.address || 'Your Address';
@@ -284,6 +298,14 @@
 
         // Populate resume when page loads
         window.onload = populateResume;
+
+        // Populate the resume with data
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('name').textContent = urlParams.get('name') || '';
+        document.getElementById('title').textContent = urlParams.get('title') || '';
+        document.getElementById('email').textContent = urlParams.get('email') || '';
+        document.getElementById('phone').textContent = urlParams.get('phone') || '';
+        document.getElementById('address').textContent = urlParams.get('address') || '';
     </script>
 </body>
 </html> 
