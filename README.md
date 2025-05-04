@@ -1,6 +1,3 @@
-
-
-
 # 📝 Resume Builder
 
 <div align="center">
