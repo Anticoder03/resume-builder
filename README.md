@@ -1,6 +1,6 @@
 
 
-````markdown
+
 # 📝 Resume Builder
 
 <div align="center">
@@ -84,7 +84,7 @@
 ```bash
 git clone https://github.com/Anticoder03/resume-builder.git
 cd resume-builder
-````
+
 
 ### 🌐 2. Open in browser
 
