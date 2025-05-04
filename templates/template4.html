@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Template 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .resume-container {
+            width: 8.5in;
+            min-height: 11in;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .section-title {
+            color: #059669;
+            border-bottom: 2px solid #059669;
+        }
+        .skill-tag {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .contact-icon {
+            background: #d1fae5;
+            color: #059669;
+        }
+        @media print {
+            .download-btn {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+            .resume-container {
+                box-shadow: none;
+            }
+            .card {
+                box-shadow: none;
+            }
+            .card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="container mx-auto px-4">
+        <!-- Download Button -->
+        <div class="flex justify-end mb-4">
+            <button id="downloadBtn" class="download-btn bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Download Resume
+            </button>
+        </div>
+
+        <div id="resume-content" class="resume-container">
+            <!-- Header -->
+            <div class="card p-8 mb-6">
+                <h1 id="resume-name" class="text-3xl font-bold text-green-900 mb-2">Full Name</h1>
+                <p id="resume-title" class="text-lg text-green-700">Professional Title</p>
+                <div class="mt-4 flex flex-wrap gap-4">
+                    <p id="resume-email" class="flex items-center text-green-800">
+                        <span class="contact-icon p-2 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </span>
+                        <span>email@example.com</span>
+                    </p>
+                    <p id="resume-phone" class="flex items-center text-green-800">
+                        <span class="contact-icon p-2 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                        </span>
+                        <span>+1234567890</span>
+                    </p>
+                    <p id="resume-address" class="flex items-center text-green-800">
+                        <span class="contact-icon p-2 rounded-full mr-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </span>
+                        <span>Your Address</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="col-span-2 space-y-6">
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-2">Career Objective</h2>
+                        <p id="resume-objective" class="text-gray-700 text-sm">Your career objective goes here...</p>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-4">Work Experience</h2>
+                        <div id="resume-experience" class="space-y-4">
+                            <!-- Experience details will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-4">Projects</h2>
+                        <div id="resume-projects" class="space-y-4">
+                            <!-- Projects will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-2">Skills</h2>
+                        <div id="resume-skills" class="flex flex-wrap gap-2">
+                            <!-- Skills will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-4">Education</h2>
+                        <div id="resume-education" class="space-y-4">
+                            <!-- Education details will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-2">Certifications</h2>
+                        <div id="resume-certifications" class="space-y-2">
+                            <!-- Certifications will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-2">Languages</h2>
+                        <div id="resume-languages" class="space-y-2">
+                            <!-- Languages will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-2">Hobbies</h2>
+                        <div id="resume-hobbies" class="space-y-2">
+                            <!-- Hobbies will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="section-title text-lg font-bold mb-2">References</h2>
+                        <div id="resume-references" class="space-y-2">
+                            <!-- References will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return Object.fromEntries(params.entries());
+        }
+
+        // Function to populate resume
+        function populateResume() {
+            const params = getUrlParams();
+            
+            // Basic Information
+            document.getElementById('resume-name').textContent = params.name || 'Full Name';
+            document.getElementById('resume-email').querySelector('span:last-child').textContent = params.email || 'email@example.com';
+            document.getElementById('resume-phone').querySelector('span:last-child').textContent = params.phone || '+1234567890';
+            document.getElementById('resume-address').querySelector('span:last-child').textContent = params.address || 'Your Address';
+            
+            // Objective
+            document.getElementById('resume-objective').textContent = params.objective || 'Your career objective goes here...';
+            
+            // Skills
+            const skillsContainer = document.getElementById('resume-skills');
+            if (params.skills) {
+                const skills = params.skills.split(',').map(skill => skill.trim());
+                skillsContainer.innerHTML = skills.map(skill => 
+                    `<span class="skill-tag px-3 py-1 rounded-full text-xs font-medium">${skill}</span>`
+                ).join('');
+            }
+            
+            // Education
+            const educationContainer = document.getElementById('resume-education');
+            if (params.education) {
+                const educationItems = params.education.split('\n').filter(item => item.trim());
+                educationContainer.innerHTML = educationItems.map(item => 
+                    `<div class="text-gray-700 text-xs">${item}</div>`
+                ).join('');
+            } else {
+                educationContainer.innerHTML = '<p class="text-gray-700 text-xs">Your education details go here...</p>';
+            }
+            
+            // Experience
+            const experienceContainer = document.getElementById('resume-experience');
+            if (params.experience) {
+                const experienceItems = params.experience.split('\n').filter(item => item.trim());
+                experienceContainer.innerHTML = experienceItems.map(item => 
+                    `<div class="text-gray-700 text-xs">${item}</div>`
+                ).join('');
+            } else {
+                experienceContainer.innerHTML = '<p class="text-gray-700 text-xs">Your work experience goes here...</p>';
+            }
+            
+            // Projects
+            const projectsContainer = document.getElementById('resume-projects');
+            if (params.projects) {
+                const projectItems = params.projects.split('\n').filter(item => item.trim());
+                projectsContainer.innerHTML = projectItems.map(item => 
+                    `<div class="text-gray-700 text-xs">${item}</div>`
+                ).join('');
+            } else {
+                projectsContainer.innerHTML = '<p class="text-gray-700 text-xs">Your projects go here...</p>';
+            }
+            
+            // Additional Information
+            document.getElementById('resume-certifications').innerHTML = params.certifications ? 
+                `<div class="text-gray-700 text-xs">${params.certifications.replace(/\n/g, '<br>')}</div>` : 
+                '<p class="text-gray-700 text-xs">Your certifications go here...</p>';
+            
+            document.getElementById('resume-languages').innerHTML = params.languages ? 
+                `<div class="text-gray-700 text-xs">${params.languages.replace(/\n/g, '<br>')}</div>` : 
+                '<p class="text-gray-700 text-xs">Your languages go here...</p>';
+            
+            document.getElementById('resume-hobbies').innerHTML = params.hobbies ? 
+                `<div class="text-gray-700 text-xs">${params.hobbies.replace(/\n/g, '<br>')}</div>` : 
+                '<p class="text-gray-700 text-xs">Your hobbies go here...</p>';
+            
+            document.getElementById('resume-references').innerHTML = params.references ? 
+                `<div class="text-gray-700 text-xs">${params.references.replace(/\n/g, '<br>')}</div>` : 
+                '<p class="text-gray-700 text-xs">Your references go here...</p>';
+        }
+
+        // Function to download resume as PDF
+        function downloadResume() {
+            const element = document.getElementById('resume-content');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Show loading state
+            downloadBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Generating PDF...
+            `;
+            downloadBtn.disabled = true;
+
+            // PDF options
+            const opt = {
+                margin: 0.2,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: true,
+                    letterRendering: true,
+                    width: 850,
+                    height: 1100
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'letter', 
+                    orientation: 'portrait',
+                    compress: true
+                }
+            };
+
+            // Generate PDF
+            html2pdf()
+                .set(opt)
+                .from(element)
+                .save()
+                .then(() => {
+                    // Reset button state
+                    downloadBtn.innerHTML = `
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Download Resume
+                    `;
+                    downloadBtn.disabled = false;
+                })
+                .catch((error) => {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                    // Reset button state
+                    downloadBtn.innerHTML = `
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Download Resume
+                    `;
+                    downloadBtn.disabled = false;
+                });
+        }
+
+        // Add event listener for download button
+        document.getElementById('downloadBtn').addEventListener('click', downloadResume);
+
+        // Populate resume when page loads
+        window.onload = populateResume;
+    </script>
+</body>
+</html> 
